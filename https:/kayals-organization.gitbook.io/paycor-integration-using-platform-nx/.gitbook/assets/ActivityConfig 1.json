@@ -1,0 +1,511 @@
+{
+    "resources":
+    [
+        {
+            "name": "Schedule",
+            "description": "Schedule is Event Source - which means it is a trigger and will always be the first activity in a workflow. This activity is used to schedule at what time the workflow should trigger. The options are once at a given time, or repeated executions based on cron expression.",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "EVENT_SOURCE",
+                "activityName": "Schedule",
+                "scheduleType": null,
+                "initialDelay": null,
+                "delay": null,
+                "period": null,
+                "onceAt": null,
+                "scheduleExpression": null,
+                "zoneId": null
+            }
+        },
+        {
+            "name": "Subflow",
+            "description": "This is activity for Sub Flow. Sublfow is call other workflows. subflowPath always refers to workflows that have start as the first activity (no other event source). waitForCompletion is set to true majority of the times, this indicates that the calling workflow should wait until the subflow is complete",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "SIMPLE",
+                "activityName": "Subflow",
+                "subflowPath": null,
+                "waitForCompletion": true
+            }
+        },
+        {
+            "name": "Response",
+            "description": "Response activity sends response to the trigger, that trigged the workflow. The Event Sources that will have response activity are workflows that have starters others than Start and Schedule and if the user is expecting a response body. It is always placed before the End activity and is usually after all other activities have completed. The user can choose to place the response any where before end",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "SIMPLE",
+                "activityName": "Response",
+                "stream": null,
+                "streamResource": null,
+                "inputs": null,
+                "output": null
+            }
+        },
+        {
+            "name": "End",
+            "description": "This is activity for end of workflow.",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "END",
+                "activityName": "End"
+            }
+        },
+        {
+            "name": "Start",
+            "description": "This is activity for start of workflow. Start is non trigger (non event source) start. Subflows always use start as the starting activity.",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "START",
+                "activityName": "Start"
+            }
+        },
+        {
+            "name": "Query",
+            "description": "This is activity for only querying from the Database.",
+            "properties":
+            {
+                "activityGroup": "RDB",
+                "activityType": "SIMPLE",
+                "activityName": "Query",
+                "rdbConnection": null,
+                "query": null,
+                "batchSize": null
+            }
+        },
+        {
+            "name": "Connection",
+            "description": "This is Resource for Database Connection",
+            "properties":
+            {
+                "activityGroup": "RDB",
+                "activityType": "RESOURCE",
+                "activityName": "Connection",
+                "database": null,
+                "host": null,
+                "port": null,
+                "dbType": null,
+                "user": null,
+                "password": null
+            }
+        },
+        {
+            "name": "Upsert",
+            "description": "This is activity used only for upserting (insert or update) records in a database",
+            "properties":
+            {
+                "activityGroup": "RDB",
+                "activityType": "SIMPLE",
+                "activityName": "Upsert",
+                "rdbConnection": null,
+                "upsertStatement": null,
+                "returnGeneratedKeys": null
+            }
+        },
+        {
+            "name": "Log",
+            "description": "This activity for logging",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "SIMPLE",
+                "activityName": "Log",
+                "logAllData": null,
+                "logLevel": null
+            }
+        },
+        {
+            "name": "Lookup",
+            "description": "This resource for Lookup values in a table based on a key(s)",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "RESOURCE",
+                "activityName": "Lookup",
+                "loadPolicy": null,
+                "refreshInterval": null,
+                "workflow": null
+            }
+        },
+        {
+            "name": "Mapper",
+            "description": "This activity for Datamapping and Transformation. Transformation capability is provided in every activity automatically, so this activity is used if you want to explicitly transform data more for optimization reasons",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "SIMPLE",
+                "activityName": "Mapper",
+                "inputs": null,
+                "output": null
+            }
+        },
+        {
+            "name": "RESTService",
+            "description": "This activity is an Event Source (Trigger) and is used as the first activity in an workflow. This activity allows to expose the workflow as a REST API",
+            "properties":
+            {
+                "activityGroup": "HTTP",
+                "activityType": "EVENT_SOURCE",
+                "activityName": "RESTService",
+                "path": null,
+                "method": null,
+                "allowedMediaTypes": null,
+                "serverConfig": null,
+                "headers": null,
+                "pathParams": null,
+                "queryParams": null
+            }
+        },
+        {
+            "name": "SaveDeduction",
+            "description": "This is Paycor specific Activity that is used to update or save deduction in a single activity",
+            "properties":
+            {
+                "activityGroup": "Paycor",
+                "activityName": "SaveDeduction",
+                "activityType": "SIMPLE",
+                "isCustomType": true,
+                "templateOfActivity": "Subflow",
+                "templateOfGroup": "Common",
+                "name": "Save Deduction",
+                "description": "",
+                "inputTarget": ""
+            }
+        },
+        {
+            "name": "AddDeduction",
+            "description": "This is Paycor specific Activity that is used to add a new deduction.Somewhere before this activity usually we get all deductions, check if the deduction already exists and use this only when the deduction is not present",
+            "properties":
+            {
+                "activityGroup": "Paycor",
+                "activityName": "AddDeduction",
+                "activityType": "SIMPLE",
+                "isCustomType": true,
+                "templateOfActivity": "RESTClient",
+                "templateOfGroup": "HTTP",
+                "name": "Add Deduction",
+                "description": "",
+                "inputTarget": ""
+            }
+        },
+        {
+            "name": "UpdateDeduction",
+            "description": "This is Paycor specific Activity that is used to update an existing deductions. Somewhere before this activity unless the user provided deductionId we fetch all the deductions and then extract deductionId and use it to update",
+            "properties":
+            {
+                "activityGroup": "Paycor",
+                "activityName": "UpdateDeduction",
+                "activityType": "SIMPLE",
+                "isCustomType": true,
+                "templateOfActivity": "RESTClient",
+                "templateOfGroup": "HTTP",
+                "name": "Update Deduction",
+                "description": "",
+                "inputTarget": ""
+            }
+        },
+        {
+            "name": "GetDeductions",
+            "description": "This is Paycor specific Activity that is used get all existing deductions for a given employee.",
+            "properties":
+            {
+                "activityGroup": "Paycor",
+                "activityName": "GetDeductions",
+                "activityType": "SIMPLE",
+                "isCustomType": true,
+                "templateOfActivity": "RESTClient",
+                "templateOfGroup": "HTTP",
+                "name": "Get Deductions",
+                "description": "",
+                "inputTarget": ""
+            }
+        },
+        {
+            "name": "GetEmployee",
+            "description": "This is Paycor specific Activity that is used get employee details a given employee ID.",
+            "properties":
+            {
+                "activityGroup": "Paycor",
+                "activityName": "GetEmployee",
+                "activityType": "SIMPLE",
+                "isCustomType": true,
+                "templateOfActivity": "RESTClient",
+                "templateOfGroup": "HTTP",
+                "name": "Get Employee",
+                "description": "",
+                "inputTarget": ""
+            }
+        },
+        {
+            "name": "HTTPServer",
+            "description": "This resources is for HTTP Server",
+            "properties":
+            {
+                "activityGroup": "HTTP",
+                "activityType": "RESOURCE",
+                "activityName": "HTTPServer",
+                "port": null,
+                "host": null
+            }
+        },
+        {
+            "name": "OAuth",
+            "description": "This resources is for OAuth",
+            "properties":
+            {
+                "activityGroup": "HTTP",
+                "activityType": "RESOURCE",
+                "activityName": "OAuth",
+                "clientId": null,
+                "clientSecret": null,
+                "tokenUri": null,
+                "refreshToken": null,
+                "numberOfPermits": null,
+                "refreshPeriod": null,
+                "enableRateLimiting": null
+            }
+        },
+        {
+            "name": "ABSWrite",
+            "description": "This activity is used to Write data to Azure Blob Storage",
+            "properties":
+            {
+                "activityGroup": "AzureStorage",
+                "activityType": "SIMPLE",
+                "activityName": "ABSWrite",
+                "absConnection": null,
+                "containerName": null,
+                "path": null,
+                "blobName": null,
+                "createContainer": null,
+                "format": null,
+                "formatterResource": null,
+                "blobType": null
+            }
+        },
+        {
+            "name": "RESTClient",
+            "description": "This activity is used to make REST API Calls. This is used to GET , PUT, POST , DELETE or Patch based on the requirements. This will be used only if we don't have specific custom activies for making the calls",
+            "properties":
+            {
+                "activityGroup": "HTTP",
+                "activityType": "SIMPLE",
+                "activityName": "RESTClient",
+                "scheme": null,
+                "uri": null,
+                "host": null,
+                "port": null,
+                "method": null,
+                "headers": null,
+                "pathParams": null,
+                "queryParams": null,
+                "auth": null,
+                "auth.authType": null,
+                "auth.oAuthResource": null
+            }
+        },
+        {
+            "name": "UpdateWFVariable",
+            "description": "This activity is used to update process context variable. Process context is variables that are specific to an instance of workflow. This is usually used if we have a loop or want to extract some value or set some value and reuse it multiple times",
+            "properties":
+            {
+                "activityGroup": "Common",
+                "activityType": "SIMPLE",
+                "activityName": "UpdateWFVariable",
+                "inputs": null,
+                "output": null
+            }
+        },
+        {
+            "name": "ErrorGenerator",
+            "description": "This activity is for Error Generator",
+            "properties":
+            {
+                "activityGroup": "ErrorGroup",
+                "activityType": "SIMPLE",
+                "activityName": "ErrorGenerator",
+                "errorMessage": null
+            }
+        },
+        {
+            "name": "ErrorHandler",
+            "description": "This activity is for Error Handler",
+            "properties":
+            {
+                "activityGroup": "ErrorGroup",
+                "activityType": "SIMPLE",
+                "activityName": "ErrorHandler",
+                "errorConfig": null
+            }
+        },
+        {
+            "name": "TableDiff",
+            "description": "This activity is for diff data between two columnar data structures. Examples for columnar data is comparing 2 csv files, 2 json documents, 2 tables etc",
+            "properties":
+            {
+                "activityGroup": "Diff",
+                "activityType": "SIMPLE",
+                "activityName": "TableDiff",
+                "sourceDef": null,
+                "dataSource": null,
+                "inputs": null,
+                "output": null
+            }
+        },
+        {
+            "name": "Format",
+            "description": "This activity is for Formating the data. Examples like formatting input to CSV or vice versa.",
+            "properties":
+            {
+                "activityGroup": "File",
+                "activityType": "SIMPLE",
+                "activityName": "Format",
+                "format": null,
+                "seperator": null,
+                "hasHeader": null,
+                "column": null,
+                "inputs": null,
+                "output": null
+            }
+        },
+        {
+            "name": "CSV Reader",
+            "description": "This activity is for reading CSV files.",
+            "properties":
+            {
+                "activityGroup": "File",
+                "activityType": "SIMPLE",
+                "activityName": "CSV Reader",
+                "sourceDef": null,
+                "dataSource": null,
+                "inputs": null,
+                "output": null
+            }
+        },
+        {
+            "name": "CSVFormat",
+            "description": "This resource provides the metadata for reading, writing or transforming CSV files. It provides file specification",
+            "properties":
+            {
+                "activityGroup": "File",
+                "activityType": "RESOURCE",
+                "activityName": "CSVFormat",
+                "strictHeader": null,
+                "skipFirstDataRow": null,
+                "hasHeader": null,
+                "startRow": null,
+                "quoteChar": null,
+                "columnSeparator": null,
+                "lineSeparator": null,
+                "escapeChar": null,
+                "nullValue": null,
+                "headers": null
+            }
+        },
+        {
+            "name": "Webhook",
+            "description": "This activity is an Event Source (Trigger) and is used as the first activity in an workflow. This activity is used when we want the workflow to be a Webhook receiver to process Webhook events",
+            "properties":
+            {
+                "activityGroup": "HTTP",
+                "activityType": "EVENT_SOURCE",
+                "activityName": "Webhook",
+                "path": null,
+                "serverConfig": null,
+                "allowedMediaTypes": null,
+                "webhookSignature.encoding": null,
+                "webhookSignature.algorithm": null,
+                "webhookSignature.signatureHeader": null,
+                "webhookSignature.secret": null,
+                "webhookSignature.signedContentFormat": null,
+                "webhookSignature.signedContent": null,
+                "webhookSignature.lateAfter": null,
+                "webhookSignature.dateHeader": null,
+                "webhookSignature.dateFormat": null,
+                "webhookSignature.signatureSeparator": null,
+                "webhookSignature.overrides.uri": null
+            }
+        },
+        {
+            "name": "ASQMessageReceiver",
+            "description": "This activity is for receiving and processig Azure Storage Queue Messages",
+            "properties":
+            {
+                "activityGroup": "AzureStorage",
+                "activityType": "EVENT_SOURCE",
+                "activityName": "ASQMessageReceiver",
+                "asqConnection": null,
+                "queueName": null,
+                "maxMessages": null,
+                "createQueue": null
+            }
+        },
+        {
+            "name": "ASQSendMessage",
+            "description": "This activity is for Sending messages to Azure Storage Queue",
+            "properties":
+            {
+                "activityGroup": "AzureStorage",
+                "activityType": "SIMPLE",
+                "activityName": "ASQSendMessage",
+                "asqConnection": null,
+                "queueName": null
+            }
+        },
+        {
+            "name": "ASQDeleteMessage",
+            "description": "This activity is to delete messages from Azure Storage Queue",
+            "properties":
+            {
+                "activityGroup": "AzureStorage",
+                "activityType": "SIMPLE",
+                "activityName": "ASQDeleteMessage",
+                "asqConnection": null,
+                "queueName": null
+            }
+        },
+        {
+            "name": "ASQConnection",
+            "description": "This resources is for Azure Storage Queue Connection",
+            "properties":
+            {
+                "activityGroup": "AzureStorage",
+                "activityType": "RESOURCE",
+                "activityName": "ASQConnection",
+                "authType": null,
+                "accountName": null,
+                "accountKey": null
+            }
+        },
+        {
+            "name": "ABSConnection",
+            "description": "This resources is for Azure Blob Storage Connection",
+            "properties":
+            {
+                "activityGroup": "AzureStorage",
+                "activityType": "RESOURCE",
+                "activityName": "ABSConnection",
+                "authType": null,
+                "accountName": null,
+                "accountKey": null
+            }
+        },
+        {
+            "name": "ABSStreamReader",
+            "description": "This resources is read messages from Azure Blob Storage",
+            "properties":
+            {
+                "activityGroup": "AzureStorage",
+                "activityType": "RESOURCE",
+                "activityName": "ABSStreamReader",
+                "type": null,
+                "absConnection": null,
+                "containerName": null
+            }
+        }
+    ]
+}

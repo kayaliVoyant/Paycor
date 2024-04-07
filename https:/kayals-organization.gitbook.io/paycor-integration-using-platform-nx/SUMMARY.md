@@ -1,0 +1,17 @@
+# Table of contents
+
+* [Paycor Integration Studio](README.md)
+  * [Introduction to Paycor Integration Studio](paycor-integration-studio/introduction-to-paycor-integration-studio.md)
+  * [Getting Started with Paycor Integration Studio: A Quick Look](paycor-integration-studio/getting-started-with-paycor-integration-studio-a-quick-look.md)
+  * [How to access Paycor Integration Studio](paycor-integration-studio/how-to-access-paycor-integration-studio.md)
+  * [How to create applications](paycor-integration-studio/how-to-create-applications/README.md)
+    * [Create your application from scratch](paycor-integration-studio/how-to-create-applications/create-your-application-from-scratch.md)
+    * [Create an Application Using OpenAPI](paycor-integration-studio/how-to-create-applications/create-an-application-using-openapi.md)
+  * [How to build workflows](paycor-integration-studio/how-to-build-workflows/README.md)
+    * [Create a workflow from the blank template](paycor-integration-studio/how-to-build-workflows/create-a-workflow-from-the-blank-template.md)
+    * [Create a Workflow using predefined templates](paycor-integration-studio/how-to-build-workflows/create-a-workflow-using-ai-generator.md)
+    * [Create a Workflow using OpenAPI](paycor-integration-studio/how-to-build-workflows/create-a-workflow-using-openapi.md)
+  * [How to add variables](paycor-integration-studio/add-variables.md)
+  * [How to configure a new resource](paycor-integration-studio/manage-resources.md)
+  * [How to manage schemas](paycor-integration-studio/manage-schemas.md)
+  * [How to add activities to your workflow](paycor-integration-studio/add-activities-to-your-workflow.md)
